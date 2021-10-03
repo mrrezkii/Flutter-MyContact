@@ -14,28 +14,26 @@ class SplashScreenPage extends StatefulWidget {
 
 class _SplashScreenPageState extends State<SplashScreenPage> {
   @override
-  void initState() {
-    startSplashScreen();
-  }
+  void initState() => startSplashScreen();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: SvgPicture.asset(
-              'assets/vector/ic_logo.svg',
-                width: 150,
-              ),
-            )
-          ],
-        ));
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Center(
+          child: SvgPicture.asset(
+            'assets/vector/ic_logo.svg',
+            width: 150,
+          ),
+        )
+      ],
+    ));
   }
 
-  startSplashScreen() async {
+  startSplashScreen() {
     var duration = const Duration(seconds: 3);
     return Timer(duration, () {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
