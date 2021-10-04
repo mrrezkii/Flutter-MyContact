@@ -4,8 +4,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_contact/shared/theme.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   const DetailPage({Key? key}) : super(key: key);
+
+  @override
+  _DetailPageState createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController numberController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -19,19 +28,20 @@ class DetailPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   InkWell(
-                    onTap: (){},
+                    onTap: () {},
                     child: Padding(
                       padding: const EdgeInsets.all(24),
                       child: SvgPicture.asset('assets/vector/ic_back.svg'),
                     ),
                   ),
                   InkWell(
-                    onTap: (){},
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: SvgPicture.asset('assets/vector/ic_star.svg'),
-                    ),
-                  )
+                      onTap: () {},
+                      child:
+
+                          /// FAB CONTROLLER
+                          starFilled()
+                      // starOutline()
+                      )
                 ],
               ),
               Container(
@@ -43,12 +53,13 @@ class DetailPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(13, 24, 0, 24),
-                child: Text(
-                  'Manusia Purba',
-                  style: blackTextFont.copyWith(fontSize: 25),
-                ),
-              ),
+                  padding: const EdgeInsets.fromLTRB(13, 24, 35, 24),
+                  child:
+
+                      /// NAME CONTROLLER
+                      nameDetail()
+                  //nameEdit()
+                  ),
               Container(
                 width: double.infinity,
                 height: 1,
@@ -61,7 +72,7 @@ class DetailPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   InkWell(
-                    onTap: (){},
+                    onTap: () {},
                     child: Column(
                       children: <Widget>[
                         SvgPicture.asset('assets/vector/ic_phone.svg'),
@@ -73,7 +84,7 @@ class DetailPage extends StatelessWidget {
                     ),
                   ),
                   InkWell(
-                    onTap: (){},
+                    onTap: () {},
                     child: Column(
                       children: <Widget>[
                         SvgPicture.asset('assets/vector/ic_chat.svg'),
@@ -85,7 +96,7 @@ class DetailPage extends StatelessWidget {
                     ),
                   ),
                   InkWell(
-                    onTap: (){},
+                    onTap: () {},
                     child: Column(
                       children: <Widget>[
                         SvgPicture.asset('assets/vector/ic_video.svg'),
@@ -120,19 +131,10 @@ class DetailPage extends StatelessWidget {
                     SizedBox(
                       width: 22,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          '085608845319',
-                          style: blackTextFont,
-                        ),
-                        Text(
-                          'Mobile Number',
-                          style: blackLightTextFont,
-                        )
-                      ],
-                    )
+
+                    /// NUMBER CONTROLLER
+                    numberDetail()
+                    //numberEdit(),
                   ],
                 ),
               ),
@@ -150,19 +152,10 @@ class DetailPage extends StatelessWidget {
                     SizedBox(
                       width: 22,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'manusiapurba@gmail.com',
-                          style: blackTextFont,
-                        ),
-                        Text(
-                          'Email',
-                          style: blackLightTextFont,
-                        )
-                      ],
-                    )
+
+                    /// EMAIL CONTROLLER
+                    emailDetail()
+                    //emailEdit()
                   ],
                 ),
               ),
@@ -174,15 +167,148 @@ class DetailPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: FloatingActionButton.extended(
-          backgroundColor: pinkColor,
-          icon: SvgPicture.asset('assets/vector/ic_edit.svg'),
-          onPressed: () {},
-          label: Text('Edit Contact'),
-        ),
-      ),
+          padding: const EdgeInsets.all(24.0),
+          child:
+
+              /// FAB CONTROLLER
+              //fabAdd()
+              fabEditContact()
+          //     fabSave()
+          ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    );
+  }
+
+  Widget starOutline() {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: SvgPicture.asset('assets/vector/ic_star.svg'),
+    );
+  }
+
+  Widget starFilled() {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: SvgPicture.asset('assets/vector/ic_star_filled.svg'),
+    );
+  }
+
+  Widget nameDetail() {
+    return Text(
+      'Manusia Purba',
+      style: blackTextFont.copyWith(fontSize: 25),
+    );
+  }
+
+  Widget nameEdit() {
+    return TextField(
+      controller: nameController,
+      style: blackTextFont.copyWith(fontSize: 25),
+      decoration: InputDecoration(
+          hintText: "Name",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          contentPadding: EdgeInsets.fromLTRB(12, 10, 0, 10),
+          hintStyle: blackTextFont.copyWith(fontSize: 25)),
+    );
+  }
+
+  Widget numberDetail() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          '085608845319',
+          style: blackTextFont,
+        ),
+        Text(
+          'Mobile Number',
+          style: blackLightTextFont,
+        )
+      ],
+    );
+  }
+
+  Widget numberEdit() {
+    return Container(
+      width: 170,
+      child: TextField(
+        controller: numberController,
+        style: blackTextFont,
+        decoration: InputDecoration(
+            hintText: "Mobile Number",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            contentPadding: EdgeInsets.only(left: 12),
+            hintStyle: blackTextFont),
+      ),
+    );
+  }
+
+  Widget emailDetail() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'manusiapurba@gmail.com',
+          style: blackTextFont,
+        ),
+        Text(
+          'Email',
+          style: blackLightTextFont,
+        )
+      ],
+    );
+  }
+
+  Widget emailEdit() {
+    return Container(
+      width: 170,
+      child: TextField(
+        controller: emailController,
+        style: blackTextFont,
+        decoration: InputDecoration(
+            hintText: "Email",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            contentPadding: EdgeInsets.only(left: 12),
+            hintStyle: blackTextFont),
+      ),
+    );
+  }
+
+  Widget fabAdd() {
+    return FloatingActionButton(
+      backgroundColor: pinkColor,
+      child: Icon(Icons.add),
+      onPressed: () {},
+    );
+  }
+
+  Widget fabEditContact() {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: FloatingActionButton.extended(
+        backgroundColor: pinkColor,
+        icon: SvgPicture.asset('assets/vector/ic_edit.svg'),
+        onPressed: () {},
+        label: Text('Edit Contact'),
+      ),
+    );
+  }
+
+  Widget fabSave() {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: FloatingActionButton.extended(
+        backgroundColor: blueColor,
+        icon: Icon(Icons.save),
+        onPressed: () {},
+        label: Text('Save'),
+      ),
     );
   }
 }
