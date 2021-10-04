@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_contact/ui/pages/listview_contact.dart';
 
 import 'main_page.dart';
 
@@ -37,7 +38,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     var duration = const Duration(seconds: 3);
     return Timer(duration, () {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return MainPage();
+        return ListViewContact();
       }));
     });
   }
