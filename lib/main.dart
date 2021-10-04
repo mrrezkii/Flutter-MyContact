@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_contact/ui/pages/splash_screen_page.dart';
+import 'package:my_contact/ui/pages/detail_page.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: SplashScreenPage(),
+      home: DetailPage(),
     );
   }
 }
