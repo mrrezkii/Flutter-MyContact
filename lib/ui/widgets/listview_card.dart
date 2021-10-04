@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_contact/model/user.dart';
 import '../../shared/theme.dart';
 
 class ListViewCard extends StatelessWidget {
-  const ListViewCard({Key? key}) : super(key: key);
+  final User user;
+
+  const ListViewCard({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +27,16 @@ class ListViewCard extends StatelessWidget {
         leading: Container(
           margin: EdgeInsets.only(top: 7.0, bottom: 7.0),
           child: CircleAvatar(
-            radius: 43.0,
-            child: Image.asset(
-              "assets/vector/photo_contact1.png",
+            radius: 42.0,
+            child: Image.network(
+              user.photo ??
+                  "https://gravatar.com/avatar/503f5a145a84199a8ce0e5e99390642f?s=400&d=robohash&r=x",
               fit: BoxFit.cover,
             ),
           ),
         ),
         title: Text(
-          "Anak Rektor - Dosen Killer Kelas A",
+          user.name,
           style: blackTextFont,
           overflow: TextOverflow.ellipsis,
         ),
