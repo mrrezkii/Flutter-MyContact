@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_contact/model/args_listview_contact.dart';
 import 'package:my_contact/model/user.dart';
+import 'package:my_contact/ui/pages/detail_page.dart';
 import '../../shared/theme.dart';
 
 class ListViewCard extends StatelessWidget {
@@ -35,10 +37,23 @@ class ListViewCard extends StatelessWidget {
             ),
           ),
         ),
-        title: Text(
-          user.name,
-          style: blackTextFont,
-          overflow: TextOverflow.ellipsis,
+        title: GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              DetailPage.routeDetailPage,
+              arguments: DetailPageArguments(
+                name: user.name,
+                number: user.number,
+                image: user.photo!,
+              ),
+            );
+          },
+          child: Text(
+            user.name,
+            style: blackTextFont,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         trailing: Container(
           height: 61.0,
