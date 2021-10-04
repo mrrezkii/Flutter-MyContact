@@ -2,9 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:my_contact/model/args_listview_contact.dart';
+import 'package:my_contact/provider/star_provider.dart';
 import 'package:my_contact/shared/theme.dart';
+import 'package:provider/provider.dart';
 
 class DetailPage extends StatefulWidget {
+  static const routeDetailPage = '/detail-page';
   const DetailPage({Key? key}) : super(key: key);
 
   @override
@@ -18,6 +22,9 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final argsDetailPage =
+        ModalRoute.of(context)!.settings.arguments as DetailPageArguments;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -28,18 +35,24 @@ class _DetailPageState extends State<DetailPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(24),
                       child: SvgPicture.asset('assets/vector/ic_back.svg'),
                     ),
                   ),
-                  InkWell(
-                      onTap: () {},
-                      child:
+                  InkWell(onTap: () {
+                    context.read<StarProvider>().changeFavourite();
+                  }, child:
 
                           /// FAB CONTROLLER
-                          starFilled()
+                          Consumer<StarProvider>(
+                    builder: (context, starProv, child) {
+                      return starFilled(starProv);
+                    },
+                  )
                       // starOutline()
                       )
                 ],
@@ -48,18 +61,18 @@ class _DetailPageState extends State<DetailPage> {
                 width: double.infinity,
                 height: 300,
                 child: Image.network(
-                  'https://cl-static-v3.padangkita.com/wp-content/uploads/2020/03/manusia-purba-Padangkita.com_.jpg',
+                  argsDetailPage.image,
                   fit: BoxFit.cover,
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.fromLTRB(13, 24, 35, 24),
-                  child:
+                padding: const EdgeInsets.fromLTRB(13, 24, 35, 24),
+                child:
 
-                      /// NAME CONTROLLER
-                      nameDetail()
-                  //nameEdit()
-                  ),
+                    /// NAME CONTROLLER
+                    nameDetail(argsDetailPage.name),
+                //nameEdit()
+              ),
               Container(
                 width: double.infinity,
                 height: 1,
@@ -133,7 +146,7 @@ class _DetailPageState extends State<DetailPage> {
                     ),
 
                     /// NUMBER CONTROLLER
-                    numberDetail()
+                    numberDetail(argsDetailPage.number),
                     //numberEdit(),
                   ],
                 ),
@@ -186,16 +199,18 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget starFilled() {
+  Widget starFilled(StarProvider starProvider) {
     return Padding(
       padding: const EdgeInsets.all(24),
-      child: SvgPicture.asset('assets/vector/ic_star_filled.svg'),
+      child: starProvider.isFavourite
+          ? SvgPicture.asset('assets/vector/ic_star_filled.svg')
+          : SvgPicture.asset('assets/vector/ic_star.svg'),
     );
   }
 
-  Widget nameDetail() {
+  Widget nameDetail(String name) {
     return Text(
-      'Manusia Purba',
+      name,
       style: blackTextFont.copyWith(fontSize: 25),
     );
   }
@@ -214,7 +229,7 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget numberDetail() {
+  Widget numberDetail(String number) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

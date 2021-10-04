@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_contact/provider/star_provider.dart';
+import 'package:my_contact/provider/theme_provider.dart';
 import 'package:my_contact/ui/pages/detail_page.dart';
+import 'package:my_contact/ui/pages/listview_contact.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -16,12 +21,34 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-      ),
-      home: DetailPage(),
+    return MultiProvider(
+      providers: <SingleChildWidget>[
+        ChangeNotifierProvider(
+          create: (BuildContext context) => ThemeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) => StarProvider(),
+        ),
+      ],
+      builder: (context, widget) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            scaffoldBackgroundColor:
+                context.watch<ThemeProvider>().mode == ThemeMode.light
+                    ? Colors.white
+                    : Colors.black,
+          ),
+          darkTheme: ThemeData.dark(),
+          themeMode: context.watch<ThemeProvider>().mode,
+          initialRoute: '/',
+          routes: {
+            '/': (context) => ListViewContact(),
+            DetailPage.routeDetailPage: (context) => DetailPage(),
+          },
+          // home: ListViewContact(),
+        );
+      },
     );
   }
 }
