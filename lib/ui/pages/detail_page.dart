@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:my_contact/provider/behavior_provider.dart';
 import 'package:my_contact/provider/star_provider.dart';
 import 'package:my_contact/provider/user_provider.dart';
 import 'package:my_contact/shared/theme.dart';
@@ -26,168 +27,181 @@ class _DetailPageState extends State<DetailPage> {
     final user = Provider.of<UserProvider>(context).getUser(id);
 
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: SvgPicture.asset('assets/vector/ic_back.svg'),
-                    ),
-                  ),
-                  InkWell(onTap: () {
-                    context.read<StarProvider>().changeFavourite();
-                  }, child:
-
-                          /// FAB CONTROLLER
-                          Consumer<StarProvider>(
-                    builder: (context, starProv, child) {
-                      return starFilled(starProv);
-                    },
-                  )
-                      // starOutline()
-                      )
-                ],
-              ),
-              Container(
-                width: double.infinity,
-                height: 300,
-                child: Image.network(
-                  user.photo!,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(13, 24, 35, 24),
-                child:
-
-                    /// NAME CONTROLLER
-                    nameDetail(user.name),
-                //nameEdit()
-              ),
-              Container(
-                width: double.infinity,
-                height: 1,
-                color: Color(0xFFE4E8F8),
-              ),
-              SizedBox(
-                height: 24,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {},
-                    child: Column(
-                      children: <Widget>[
-                        SvgPicture.asset('assets/vector/ic_phone.svg'),
-                        Text(
-                          'Call',
-                          style: blueTextFont,
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Column(
-                      children: <Widget>[
-                        SvgPicture.asset('assets/vector/ic_chat.svg'),
-                        Text(
-                          'Chat',
-                          style: blueTextFont,
-                        )
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Column(
-                      children: <Widget>[
-                        SvgPicture.asset('assets/vector/ic_video.svg'),
-                        Text(
-                          'Video',
-                          style: blueTextFont,
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 24,
-              ),
-              Container(
-                width: double.infinity,
-                height: 1,
-                color: Color(0xFFE4E8F8),
-              ),
-              SizedBox(
-                height: 24,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 24),
-                child: Row(
+      body: Consumer<BehaviorProvider>(
+        builder: (context, behaviorProvider, _) => SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    SvgPicture.asset(
-                      'assets/vector/ic_phone.svg',
-                      color: greyColor,
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: SvgPicture.asset('assets/vector/ic_back.svg'),
+                      ),
                     ),
-                    SizedBox(
-                      width: 22,
-                    ),
-
-                    /// NUMBER CONTROLLER
-                    numberDetail(user.number),
-                    //numberEdit(),
+                    InkWell(onTap: () {
+                      context.read<StarProvider>().changeFavourite();
+                    }, child: Consumer<StarProvider>(
+                      builder: (context, starProv, child) {
+                        return starFilled(starProv);
+                      },
+                    )
+                        // starOutline()
+                        )
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 24),
-                child: Row(
+                Container(
+                  width: double.infinity,
+                  height: 300,
+                  child: Image.network(
+                    user.photo!,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(13, 24, 35, 24),
+                  child: (context.read<BehaviorProvider>().getCondition ==
+                          behavior.detailData)
+                      ? nameDetail(user.name)
+                      : (context.read<BehaviorProvider>().getCondition ==
+                              behavior.editData)
+                          ? nameEdit(user.name)
+                          : nameEdit(''),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 1,
+                  color: Color(0xFFE4E8F8),
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    SvgPicture.asset(
-                      'assets/vector/ic_location.svg',
-                      color: greyColor,
+                    InkWell(
+                      onTap: () {},
+                      child: Column(
+                        children: <Widget>[
+                          SvgPicture.asset('assets/vector/ic_phone.svg'),
+                          Text(
+                            'Call',
+                            style: blueTextFont,
+                          )
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 22,
+                    InkWell(
+                      onTap: () {},
+                      child: Column(
+                        children: <Widget>[
+                          SvgPicture.asset('assets/vector/ic_chat.svg'),
+                          Text(
+                            'Chat',
+                            style: blueTextFont,
+                          )
+                        ],
+                      ),
                     ),
-
-                    /// EMAIL CONTROLLER
-                    emailDetail(user.address)
-                    //emailEdit()
+                    InkWell(
+                      onTap: () {},
+                      child: Column(
+                        children: <Widget>[
+                          SvgPicture.asset('assets/vector/ic_video.svg'),
+                          Text(
+                            'Video',
+                            style: blueTextFont,
+                          )
+                        ],
+                      ),
+                    )
                   ],
                 ),
-              ),
-              SizedBox(
-                height: 81,
-              ),
-            ],
+                SizedBox(
+                  height: 24,
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 1,
+                  color: Color(0xFFE4E8F8),
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24),
+                  child: Row(
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        'assets/vector/ic_phone.svg',
+                        color: greyColor,
+                      ),
+                      SizedBox(
+                        width: 22,
+                      ),
+                      (context.read<BehaviorProvider>().getCondition ==
+                              behavior.detailData)
+                          ? numberDetail(user.number)
+                          : (context.read<BehaviorProvider>().getCondition ==
+                                  behavior.editData)
+                              ? numberEdit(user.number)
+                              : numberEdit(''),
+                      //numberEdit(),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 24),
+                  child: Row(
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        'assets/vector/ic_location.svg',
+                        color: greyColor,
+                      ),
+                      SizedBox(
+                        width: 22,
+                      ),
+                      (context.read<BehaviorProvider>().getCondition ==
+                              behavior.detailData)
+                          ? addressDetail(user.address)
+                          : (context.read<BehaviorProvider>().getCondition ==
+                                  behavior.editData)
+                              ? addressEdit(user.address)
+                              : addressEdit(''),
+                      //emailEdit()
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 81,
+                ),
+              ],
+            ),
           ),
         ),
       ),
-      floatingActionButton: Padding(
+      floatingActionButton: Consumer<BehaviorProvider>(
+        builder: (context, behaviorProvider, _) => Padding(
           padding: const EdgeInsets.all(24.0),
-          child:
-
-              /// FAB CONTROLLER
-              //fabAdd()
-              fabEditContact()
+          child: (context.read<BehaviorProvider>().getCondition ==
+                  behavior.detailData)
+              ? fabEditContact(behaviorProvider)
+              : (context.read<BehaviorProvider>().getCondition ==
+                      behavior.onEdit)
+                  ? fabSave(behaviorProvider)
+                  : fabAdd(behaviorProvider),
           //     fabSave()
-          ),
+        ),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
@@ -215,9 +229,9 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget nameEdit() {
+  Widget nameEdit(String? name) {
     return TextField(
-      controller: nameController,
+      controller: nameController..text = name ?? '',
       style: blackTextFont.copyWith(fontSize: 25),
       decoration: InputDecoration(
           hintText: "Name",
@@ -245,11 +259,11 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget numberEdit() {
+  Widget numberEdit(String? number) {
     return Container(
       width: 170,
       child: TextField(
-        controller: numberController,
+        controller: numberController..text = (number) ?? '',
         style: blackTextFont,
         decoration: InputDecoration(
             hintText: "Mobile Number",
@@ -262,7 +276,7 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget emailDetail(String? address) {
+  Widget addressDetail(String? address) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -278,11 +292,11 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget emailEdit() {
+  Widget addressEdit(String? address) {
     return Container(
       width: 170,
       child: TextField(
-        controller: emailController,
+        controller: emailController..text = (address) ?? '',
         style: blackTextFont,
         decoration: InputDecoration(
             hintText: "Address",
@@ -295,33 +309,42 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget fabAdd() {
+  Widget fabAdd(BehaviorProvider behaviorProvider) {
     return FloatingActionButton(
       backgroundColor: pinkColor,
       child: Icon(Icons.add),
-      onPressed: () {},
+      onPressed: () {
+        behaviorProvider.condition = behavior.addData;
+        setState(() {});
+      },
     );
   }
 
-  Widget fabEditContact() {
+  Widget fabEditContact(BehaviorProvider behaviorProvider) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: FloatingActionButton.extended(
         backgroundColor: pinkColor,
         icon: SvgPicture.asset('assets/vector/ic_edit.svg'),
-        onPressed: () {},
+        onPressed: () {
+          behaviorProvider.condition = behavior.onEdit;
+          setState(() {});
+        },
         label: Text('Edit Contact'),
       ),
     );
   }
 
-  Widget fabSave() {
+  Widget fabSave(BehaviorProvider behaviorProvider) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: FloatingActionButton.extended(
         backgroundColor: blueColor,
         icon: Icon(Icons.save),
-        onPressed: () {},
+        onPressed: () {
+          behaviorProvider.condition = behavior.editData;
+          setState(() {});
+        },
         label: Text('Save'),
       ),
     );

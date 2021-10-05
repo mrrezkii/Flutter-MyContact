@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_contact/provider/behavior_provider.dart';
 import 'package:my_contact/provider/star_provider.dart';
 import 'package:my_contact/provider/theme_provider.dart';
 import 'package:my_contact/provider/user_provider.dart';
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (BuildContext context) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) => BehaviorProvider(),
         ),
       ],
       builder: (context, widget) {

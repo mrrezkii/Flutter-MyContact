@@ -82,8 +82,7 @@ class ListViewContact extends StatelessWidget {
               height: 18.0,
             ),
             Consumer<UserProvider>(
-              builder: (context, userProvider, _) =>
-              ListView.builder(
+              builder: (context, userProvider, _) => ListView.builder(
                 primary: false,
                 shrinkWrap: true,
                 itemCount: context.read<UserProvider>().getAllUser.length,
@@ -99,5 +98,4 @@ class ListViewContact extends StatelessWidget {
       ),
     );
   }
-
 }
