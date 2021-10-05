@@ -159,7 +159,7 @@ class _DetailPageState extends State<DetailPage> {
                 child: Row(
                   children: <Widget>[
                     SvgPicture.asset(
-                      'assets/vector/ic_email.svg',
+                      'assets/vector/ic_location.svg',
                       color: greyColor,
                     ),
                     SizedBox(
@@ -271,7 +271,7 @@ class _DetailPageState extends State<DetailPage> {
           style: blackTextFont,
         ),
         Text(
-          'Email',
+          'Address',
           style: blackLightTextFont,
         )
       ],
@@ -285,7 +285,7 @@ class _DetailPageState extends State<DetailPage> {
         controller: emailController,
         style: blackTextFont,
         decoration: InputDecoration(
-            hintText: "Email",
+            hintText: "Address",
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(5),
             ),
