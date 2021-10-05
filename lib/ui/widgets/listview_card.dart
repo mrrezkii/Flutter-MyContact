@@ -45,7 +45,8 @@ class ListViewCard extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context, DetailPage.routeDetailPage,
                   arguments: user.id);
-              context.read<BehaviorProvider>().condition = behavior.editData;
+              // Todo Ku Comment dulu mas, tanya mas ini yang bawah buat apa ya? kalo udah di push bukannya langsung pindah?
+              // context.read<BehaviorProvider>().condition = behavior.editData;
             },
             child: Text(
               user.name,

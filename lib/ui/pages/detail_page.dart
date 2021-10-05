@@ -45,15 +45,17 @@ class _DetailPageState extends State<DetailPage> {
                         child: SvgPicture.asset('assets/vector/ic_back.svg'),
                       ),
                     ),
-                    InkWell(onTap: () {
-                      context.read<StarProvider>().changeFavourite();
-                    }, child: Consumer<StarProvider>(
-                      builder: (context, starProv, child) {
-                        return starFilled(starProv);
+                    InkWell(
+                      onTap: () {
+                        context.read<StarProvider>().changeFavourite();
                       },
+                      child: Consumer<StarProvider>(
+                        builder: (context, starProv, child) {
+                          return starFilled(starProv);
+                        },
+                      ),
+                      // starOutline()
                     )
-                        // starOutline()
-                        )
                   ],
                 ),
                 Container(
@@ -66,11 +68,9 @@ class _DetailPageState extends State<DetailPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(13, 24, 35, 24),
-                  child: (context.read<BehaviorProvider>().getCondition ==
-                          behavior.detailData)
+                  child: (behaviorProvider.getCondition == behavior.detailData)
                       ? nameDetail(user.name)
-                      : (context.read<BehaviorProvider>().getCondition ==
-                              behavior.editData)
+                      : (behaviorProvider.getCondition == behavior.editData)
                           ? nameEdit(user.name)
                           : nameEdit(''),
                 ),
@@ -145,11 +145,9 @@ class _DetailPageState extends State<DetailPage> {
                       SizedBox(
                         width: 22,
                       ),
-                      (context.read<BehaviorProvider>().getCondition ==
-                              behavior.detailData)
+                      (behaviorProvider.getCondition == behavior.detailData)
                           ? numberDetail(user.number)
-                          : (context.read<BehaviorProvider>().getCondition ==
-                                  behavior.editData)
+                          : (behaviorProvider.getCondition == behavior.editData)
                               ? numberEdit(user.number)
                               : numberEdit(''),
                       //numberEdit(),
@@ -170,11 +168,9 @@ class _DetailPageState extends State<DetailPage> {
                       SizedBox(
                         width: 22,
                       ),
-                      (context.read<BehaviorProvider>().getCondition ==
-                              behavior.detailData)
+                      (behaviorProvider.getCondition == behavior.detailData)
                           ? addressDetail(user.address)
-                          : (context.read<BehaviorProvider>().getCondition ==
-                                  behavior.editData)
+                          : (behaviorProvider.getCondition == behavior.editData)
                               ? addressEdit(user.address)
                               : addressEdit(''),
                       //emailEdit()
@@ -192,11 +188,9 @@ class _DetailPageState extends State<DetailPage> {
       floatingActionButton: Consumer<BehaviorProvider>(
         builder: (context, behaviorProvider, _) => Padding(
           padding: const EdgeInsets.all(24.0),
-          child: (context.read<BehaviorProvider>().getCondition ==
-                  behavior.detailData)
+          child: (behaviorProvider.getCondition == behavior.detailData)
               ? fabEditContact(behaviorProvider)
-              : (context.read<BehaviorProvider>().getCondition ==
-                      behavior.onEdit)
+              : (behaviorProvider.getCondition == behavior.onEdit)
                   ? fabSave(behaviorProvider)
                   : fabAdd(behaviorProvider),
           //     fabSave()
@@ -314,8 +308,7 @@ class _DetailPageState extends State<DetailPage> {
       backgroundColor: pinkColor,
       child: Icon(Icons.add),
       onPressed: () {
-        behaviorProvider.condition = behavior.addData;
-        setState(() {});
+        behaviorProvider.changeCondition(behavior.addData);
       },
     );
   }
@@ -327,8 +320,7 @@ class _DetailPageState extends State<DetailPage> {
         backgroundColor: pinkColor,
         icon: SvgPicture.asset('assets/vector/ic_edit.svg'),
         onPressed: () {
-          behaviorProvider.condition = behavior.onEdit;
-          setState(() {});
+          behaviorProvider.changeCondition(behavior.editData);
         },
         label: Text('Edit Contact'),
       ),
@@ -342,8 +334,7 @@ class _DetailPageState extends State<DetailPage> {
         backgroundColor: blueColor,
         icon: Icon(Icons.save),
         onPressed: () {
-          behaviorProvider.condition = behavior.editData;
-          setState(() {});
+          behaviorProvider.changeCondition(behavior.editData);
         },
         label: Text('Save'),
       ),
