@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:my_contact/model/user.dart';
 import 'package:my_contact/provider/theme_provider.dart';
+import 'package:my_contact/provider/user_provider.dart';
 import 'package:my_contact/shared/theme.dart';
-
 import 'package:my_contact/ui/widgets/listview_card.dart';
 import 'package:provider/provider.dart';
 
@@ -82,19 +81,23 @@ class ListViewContact extends StatelessWidget {
             SizedBox(
               height: 18.0,
             ),
-            ListView.builder(
-              primary: false,
-              shrinkWrap: true,
-              itemCount: mockUser.length,
-              itemBuilder: (BuildContext context, int i) {
-                return ListViewCard(
-                  user: mockUser[i],
-                );
-              },
+            Consumer<UserProvider>(
+              builder: (context, userProvider, _) =>
+              ListView.builder(
+                primary: false,
+                shrinkWrap: true,
+                itemCount: context.read<UserProvider>().getAllUser.length,
+                itemBuilder: (context, int i) {
+                  return ListViewCard(
+                    user: context.read<UserProvider>().getAllUser[i],
+                  );
+                },
+              ),
             )
           ],
         ),
       ),
     );
   }
+
 }
