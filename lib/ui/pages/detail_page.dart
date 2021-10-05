@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:my_contact/model/args_listview_contact.dart';
 import 'package:my_contact/provider/star_provider.dart';
+import 'package:my_contact/provider/user_provider.dart';
 import 'package:my_contact/shared/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -22,8 +22,8 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final argsDetailPage =
-        ModalRoute.of(context)!.settings.arguments as DetailPageArguments;
+    final id = ModalRoute.of(context)!.settings.arguments as int;
+    final user = Provider.of<UserProvider>(context).getUser(id);
 
     return Scaffold(
       body: SafeArea(
@@ -61,7 +61,7 @@ class _DetailPageState extends State<DetailPage> {
                 width: double.infinity,
                 height: 300,
                 child: Image.network(
-                  argsDetailPage.image,
+                  user.photo!,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -70,7 +70,7 @@ class _DetailPageState extends State<DetailPage> {
                 child:
 
                     /// NAME CONTROLLER
-                    nameDetail(argsDetailPage.name),
+                    nameDetail(user.name),
                 //nameEdit()
               ),
               Container(
@@ -146,7 +146,7 @@ class _DetailPageState extends State<DetailPage> {
                     ),
 
                     /// NUMBER CONTROLLER
-                    numberDetail(argsDetailPage.number),
+                    numberDetail(user.number),
                     //numberEdit(),
                   ],
                 ),
@@ -167,7 +167,7 @@ class _DetailPageState extends State<DetailPage> {
                     ),
 
                     /// EMAIL CONTROLLER
-                    emailDetail()
+                    emailDetail(user.address)
                     //emailEdit()
                   ],
                 ),
@@ -234,7 +234,7 @@ class _DetailPageState extends State<DetailPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          '085608845319',
+          number,
           style: blackTextFont,
         ),
         Text(
@@ -262,12 +262,12 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget emailDetail() {
+  Widget emailDetail(String? address) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'manusiapurba@gmail.com',
+          address!,
           style: blackTextFont,
         ),
         Text(
