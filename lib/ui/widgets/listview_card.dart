@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_contact/model/user.dart';
+import 'package:my_contact/provider/user_provider.dart';
 import 'package:my_contact/ui/pages/detail_page.dart';
+import 'package:provider/provider.dart';
 
 import '../../shared/theme.dart';
 
@@ -51,23 +53,38 @@ class ListViewCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        trailing: Container(
-          height: 61.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(14.0),
-              bottomRight: Radius.circular(14.0),
+        trailing: Consumer<UserProvider>(
+          builder: (context, userProvider, _) => Container(
+            height: 61.0,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(14.0),
+                bottomRight: Radius.circular(14.0),
+              ),
+              color: redColor,
             ),
-            color: redColor,
-          ),
-          child: IconButton(
-            onPressed: () {},
-            iconSize: 22.0,
-            icon: SvgPicture.asset(
-              "assets/vector/ic_delete.svg",
-              alignment: Alignment.center,
-              fit: BoxFit.cover,
-              color: Colors.white,
+            child: IconButton(
+              onPressed: () {
+                var snackBar;
+                if(context.read<UserProvider>().deleteUser(user)){
+                  snackBar = SnackBar(
+                    content: Text('delete succes'),
+                  );
+                } else {
+                  snackBar = SnackBar(
+                    content: Text('delete failed'),
+                  );
+                }
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+              },
+              iconSize: 22.0,
+              icon: SvgPicture.asset(
+                "assets/vector/ic_delete.svg",
+                alignment: Alignment.center,
+                fit: BoxFit.cover,
+                color: Colors.white,
+              ),
             ),
           ),
         ),
