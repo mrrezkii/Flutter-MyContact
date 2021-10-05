@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_contact/provider/behavior_provider.dart';
 import 'package:my_contact/provider/star_provider.dart';
 import 'package:my_contact/provider/theme_provider.dart';
-import 'package:my_contact/provider/user_provider.dart';
 import 'package:my_contact/ui/pages/detail_page.dart';
 import 'package:my_contact/ui/pages/listview_contact.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+
+import 'provider/behavior_provider.dart';
+import 'provider/user_provider.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
