@@ -52,4 +52,17 @@ class UserProvider extends ChangeNotifier implements UserCallback {
 
     return false;
   }
+
+  @override
+  bool editUser2(User user, int index) {
+    try {
+      getAllUser[index] = user;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print(e);
+    }
+
+    return false;
+  }
 }

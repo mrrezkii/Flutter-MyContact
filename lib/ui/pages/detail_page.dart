@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:my_contact/model/args_listviewcard.dart';
+import 'package:my_contact/model/user.dart';
 import 'package:my_contact/provider/behavior_provider.dart';
 import 'package:my_contact/provider/star_provider.dart';
 import 'package:my_contact/provider/user_provider.dart';
@@ -23,8 +25,9 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final id = ModalRoute.of(context)!.settings.arguments as int;
-    final user = Provider.of<UserProvider>(context).getUser(id);
+    final obj =
+        ModalRoute.of(context)!.settings.arguments as ArgumentsListViewCard;
+    final user = Provider.of<UserProvider>(context).getUser(obj.id);
 
     return Scaffold(
       body: Consumer<BehaviorProvider>(
@@ -190,8 +193,8 @@ class _DetailPageState extends State<DetailPage> {
           padding: const EdgeInsets.all(24.0),
           child: (behaviorProvider.getCondition == behavior.detailData)
               ? fabEditContact(behaviorProvider)
-              : (behaviorProvider.getCondition == behavior.onEdit)
-                  ? fabSave(behaviorProvider)
+              : (behaviorProvider.getCondition == behavior.editData)
+                  ? fabSave(behaviorProvider, user, obj.index)
                   : fabAdd(behaviorProvider),
           //     fabSave()
         ),
@@ -327,14 +330,23 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget fabSave(BehaviorProvider behaviorProvider) {
+  Widget fabSave(BehaviorProvider behaviorProvider, User user, int index) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: FloatingActionButton.extended(
         backgroundColor: blueColor,
         icon: Icon(Icons.save),
         onPressed: () {
-          behaviorProvider.changeCondition(behavior.editData);
+          context.read<UserProvider>().editUser2(
+              User(
+                id: user.id,
+                name: nameController.text,
+                number: numberController.text,
+                address: emailController.text,
+                photo: user.photo,
+              ),
+              index);
+          behaviorProvider.changeCondition(behavior.detailData);
         },
         label: Text('Save'),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_contact/model/args_listviewcard.dart';
 import 'package:my_contact/model/user.dart';
 import 'package:my_contact/provider/behavior_provider.dart';
 import 'package:my_contact/provider/user_provider.dart';
@@ -11,8 +12,10 @@ import '../../shared/theme.dart';
 
 class ListViewCard extends StatelessWidget {
   final User user;
+  final int index;
 
-  const ListViewCard({Key? key, required this.user}) : super(key: key);
+  const ListViewCard({Key? key, required this.user, required this.index})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +46,14 @@ class ListViewCard extends StatelessWidget {
           ),
           title: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, DetailPage.routeDetailPage,
-                  arguments: user.id);
+              Navigator.pushNamed(
+                context,
+                DetailPage.routeDetailPage,
+                arguments: ArgumentsListViewCard(
+                  id: user.id,
+                  index: index,
+                ),
+              );
               // Todo Ku Comment dulu mas, tanya mas ini yang bawah buat apa ya? kalo udah di push bukannya langsung pindah?
               // context.read<BehaviorProvider>().condition = behavior.editData;
             },

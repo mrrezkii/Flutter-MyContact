@@ -89,6 +89,7 @@ class ListViewContact extends StatelessWidget {
                 itemBuilder: (context, int i) {
                   return ListViewCard(
                     user: context.read<UserProvider>().getAllUser[i],
+                    index: i,
                   );
                 },
               ),
