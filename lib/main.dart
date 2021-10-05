@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:my_contact/provider/star_provider.dart';
 import 'package:my_contact/provider/theme_provider.dart';
 import 'package:my_contact/ui/pages/detail_page.dart';
-import 'package:my_contact/ui/pages/listview_contact.dart';
+import 'package:my_contact/ui/pages/listview_contact_page.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
