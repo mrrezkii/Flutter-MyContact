@@ -33,8 +33,8 @@ class _DetailPageState extends State<DetailPage> {
     }
 
     return Scaffold(
-      body: Consumer<BehaviorProvider>(
-        builder: (context, behaviorProvider, _) => SafeArea(
+      body: Consumer2<BehaviorProvider, UserProvider>(
+        builder: (context, behaviorProvider, userProvider, _) => SafeArea(
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +53,7 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                     InkWell(
                       onTap: () {
-                        context.read<UserProvider>().editPriority(user);
+                        userProvider.editPriority(user);
                       },
                       child: (id == null)
                           ? Container()
@@ -193,14 +193,14 @@ class _DetailPageState extends State<DetailPage> {
           ),
         ),
       ),
-      floatingActionButton: Consumer<BehaviorProvider>(
-        builder: (context, behaviorProvider, _) => Padding(
+      floatingActionButton: Consumer2<BehaviorProvider, UserProvider>(
+        builder: (context, behaviorProvider, userProvider, _) => Padding(
           padding: const EdgeInsets.all(24.0),
           child: (behaviorProvider.getCondition == behavior.detailData)
               ? fabEditContact(behaviorProvider)
               : (behaviorProvider.getCondition == behavior.editData)
-                  ? fabSave(behaviorProvider, user, id!)
-                  : fabAdd(behaviorProvider),
+                  ? fabSave(behaviorProvider, userProvider, user, id!)
+                  : fabAdd(userProvider),
           //     fabSave()
         ),
       ),
@@ -229,12 +229,13 @@ class _DetailPageState extends State<DetailPage> {
       controller: nameController..text = name ?? '',
       style: blackTextFont.copyWith(fontSize: 25),
       decoration: InputDecoration(
-          hintText: "Name",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          contentPadding: EdgeInsets.fromLTRB(12, 10, 0, 10),
-          hintStyle: blackTextFont.copyWith(fontSize: 25)),
+        hintText: "Name",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        contentPadding: EdgeInsets.fromLTRB(12, 10, 0, 10),
+        hintStyle: blackTextFont.copyWith(fontSize: 25),
+      ),
     );
   }
 
@@ -261,12 +262,13 @@ class _DetailPageState extends State<DetailPage> {
         controller: numberController..text = (number) ?? '',
         style: blackTextFont,
         decoration: InputDecoration(
-            hintText: "Mobile Number",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            contentPadding: EdgeInsets.only(left: 12),
-            hintStyle: blackTextFont),
+          hintText: "Mobile Number",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          contentPadding: EdgeInsets.only(left: 12),
+          hintStyle: blackTextFont,
+        ),
       ),
     );
   }
@@ -294,28 +296,32 @@ class _DetailPageState extends State<DetailPage> {
         controller: emailController..text = (address) ?? '',
         style: blackTextFont,
         decoration: InputDecoration(
-            hintText: "Address",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            contentPadding: EdgeInsets.only(left: 12),
-            hintStyle: blackTextFont),
+          hintText: "Address",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          contentPadding: EdgeInsets.only(left: 12),
+          hintStyle: blackTextFont,
+        ),
       ),
     );
   }
 
-  Widget fabAdd(BehaviorProvider behaviorProvider) {
+  Widget fabAdd(UserProvider userProvider) {
     return FloatingActionButton(
       backgroundColor: pinkColor,
       child: Icon(Icons.add),
       onPressed: () {
-        context.read<UserProvider>().addUser(User(
+        userProvider.addUser(
+          User(
             id: DateTime.now().toString(),
             name: nameController.text,
             number: numberController.text,
             address: emailController.text,
             priority: false,
-            photo: Photo.randomPhoto()));
+            photo: Photo.randomPhoto(),
+          ),
+        );
         Navigator.pop(context);
       },
     );
@@ -335,20 +341,23 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget fabSave(BehaviorProvider behaviorProvider, User user, String id) {
+  Widget fabSave(BehaviorProvider behaviorProvider, UserProvider userProvider,
+      User user, String id) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: FloatingActionButton.extended(
         backgroundColor: blueColor,
         icon: Icon(Icons.save),
         onPressed: () {
-          context.read<UserProvider>().editUser(User(
-                id: id,
-                name: nameController.text,
-                number: numberController.text,
-                address: emailController.text,
-                photo: user.photo ?? User.emptyPhoto,
-              ));
+          userProvider.editUser(
+            User(
+              id: id,
+              name: nameController.text,
+              number: numberController.text,
+              address: emailController.text,
+              photo: user.photo ?? User.emptyPhoto,
+            ),
+          );
           behaviorProvider.changeCondition(behavior.detailData);
         },
         label: Text('Save'),

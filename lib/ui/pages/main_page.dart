@@ -68,7 +68,6 @@ class MainPage extends StatelessWidget {
                   child: IconButton(
                     onPressed: () {
                       context.read<ThemeProvider>().changeBool();
-
                       context.read<ThemeProvider>().theme();
                     },
                     icon: Consumer<ThemeProvider>(

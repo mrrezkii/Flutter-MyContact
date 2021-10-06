@@ -35,7 +35,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
   startSplashScreen() {
     var duration = const Duration(seconds: 3);
     return Timer(duration, () {
-      Navigator.pushNamed(
+      Navigator.pushReplacementNamed(
         context,
         MainPage.routeMainPage,
       );

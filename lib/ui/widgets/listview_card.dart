@@ -70,7 +70,7 @@ class ListViewCard extends StatelessWidget {
               child: IconButton(
                 onPressed: () {
                   var snackBar;
-                  if (context.read<UserProvider>().deleteUser(user)) {
+                  if (userProvider.deleteUser(user)) {
                     snackBar = SnackBar(
                       content: Text('delete succes'),
                     );
