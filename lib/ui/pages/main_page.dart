@@ -88,17 +88,22 @@ class MainPage extends StatelessWidget {
               height: 18.0,
             ),
             Consumer<UserProvider>(
-              builder: (context, userProvider, _) => ListView.builder(
-                primary: false,
-                shrinkWrap: true,
-                itemCount: context.read<UserProvider>().getAllUser.length,
-                itemBuilder: (context, int i) {
-                  return ListViewCard(
-                    user: context.read<UserProvider>().getAllUser[i],
-                    index: i,
-                  );
-                },
-              ),
+              builder: (context, userProvider, _) =>
+                  (context.read<UserProvider>().getAllUser.length == 0)
+                      ? noDataFound()
+                      : ListView.builder(
+                          primary: false,
+                          reverse: true,
+                          shrinkWrap: true,
+                          itemCount:
+                              context.read<UserProvider>().getAllUser.length,
+                          itemBuilder: (context, int i) {
+                            return ListViewCard(
+                              user: context.read<UserProvider>().getAllUser[i],
+                              index: i,
+                            );
+                          },
+                        ),
             )
           ],
         ),

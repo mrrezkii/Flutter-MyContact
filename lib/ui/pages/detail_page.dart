@@ -316,7 +316,16 @@ class _DetailPageState extends State<DetailPage> {
       backgroundColor: pinkColor,
       child: Icon(Icons.add),
       onPressed: () {
-        behaviorProvider.changeCondition(behavior.addData);
+        var length = context.read<UserProvider>().getAllUser.length;
+        context.read<UserProvider>().addUser(
+            User(
+              id: length + 1,
+              name: nameController.text,
+              number: numberController.text,
+              address: emailController.text,
+              photo: User.emptyPhoto
+            ));
+        Navigator.pop(context);
       },
     );
   }
