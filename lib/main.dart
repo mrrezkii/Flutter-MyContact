@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_contact/provider/star_provider.dart';
 import 'package:my_contact/provider/theme_provider.dart';
 import 'package:my_contact/ui/pages/detail_page.dart';
 import 'package:my_contact/ui/pages/main_page.dart';
@@ -29,9 +28,6 @@ class MyApp extends StatelessWidget {
       providers: <SingleChildWidget>[
         ChangeNotifierProvider(
           create: (BuildContext context) => ThemeProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (BuildContext context) => StarProvider(),
         ),
         ChangeNotifierProvider(
           create: (BuildContext context) => UserProvider(),

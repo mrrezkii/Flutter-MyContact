@@ -2,11 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:my_contact/model/args_listviewcard.dart';
 import 'package:my_contact/model/user.dart';
 import 'package:my_contact/provider/behavior_provider.dart';
-import 'package:my_contact/provider/star_provider.dart';
 import 'package:my_contact/provider/user_provider.dart';
+import 'package:my_contact/shared/photo.dart';
 import 'package:my_contact/shared/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -26,10 +25,9 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     var user;
-    var obj =
-        ModalRoute.of(context)?.settings.arguments as ArgumentsListViewCard?;
-    if (obj != null) {
-      user = Provider.of<UserProvider>(context).getUser(obj.id);
+    var id = ModalRoute.of(context)?.settings.arguments as String?;
+    if (id != null) {
+      user = Provider.of<UserProvider>(context).getUser(id);
     } else {
       user = User();
     }
@@ -55,11 +53,11 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                     InkWell(
                       onTap: () {
-                        context.read<StarProvider>().changeFavourite();
+                        context.read<UserProvider>().editPriority(user);
                       },
-                      child: Consumer<StarProvider>(
-                        builder: (context, starProv, child) {
-                          return starFilled(starProv);
+                      child: Consumer<UserProvider>(
+                        builder: (context, userProvider, child) {
+                          return starFilled(userProvider, user);
                         },
                       ),
                       // starOutline()
@@ -199,7 +197,7 @@ class _DetailPageState extends State<DetailPage> {
           child: (behaviorProvider.getCondition == behavior.detailData)
               ? fabEditContact(behaviorProvider)
               : (behaviorProvider.getCondition == behavior.editData)
-                  ? fabSave(behaviorProvider, user, obj!.index)
+                  ? fabSave(behaviorProvider, user, id!)
                   : fabAdd(behaviorProvider),
           //     fabSave()
         ),
@@ -208,17 +206,10 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget starOutline() {
+  Widget starFilled(UserProvider userProvider, User user) {
     return Padding(
       padding: const EdgeInsets.all(24),
-      child: SvgPicture.asset('assets/vector/ic_star.svg'),
-    );
-  }
-
-  Widget starFilled(StarProvider starProvider) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: starProvider.isFavourite
+      child: userProvider.getPriority(user)
           ? SvgPicture.asset('assets/vector/ic_star_filled.svg')
           : SvgPicture.asset('assets/vector/ic_star.svg'),
     );
@@ -316,15 +307,12 @@ class _DetailPageState extends State<DetailPage> {
       backgroundColor: pinkColor,
       child: Icon(Icons.add),
       onPressed: () {
-        var length = context.read<UserProvider>().getAllUser.length;
-        context.read<UserProvider>().addUser(
-            User(
-              id: length + 1,
-              name: nameController.text,
-              number: numberController.text,
-              address: emailController.text,
-              photo: User.emptyPhoto
-            ));
+        context.read<UserProvider>().addUser(User(
+            id: DateTime.now().toString(),
+            name: nameController.text,
+            number: numberController.text,
+            address: emailController.text,
+            photo: Photo.randomPhoto()));
         Navigator.pop(context);
       },
     );
@@ -344,22 +332,20 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget fabSave(BehaviorProvider behaviorProvider, User user, int index) {
+  Widget fabSave(BehaviorProvider behaviorProvider, User user, String id) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: FloatingActionButton.extended(
         backgroundColor: blueColor,
         icon: Icon(Icons.save),
         onPressed: () {
-          context.read<UserProvider>().editUser(
-              User(
-                id: user.id,
+          context.read<UserProvider>().editUser(User(
+                id: id,
                 name: nameController.text,
                 number: numberController.text,
                 address: emailController.text,
-                photo: user.photo,
-              ),
-              index);
+                photo: user.photo ?? User.emptyPhoto,
+              ));
           behaviorProvider.changeCondition(behavior.detailData);
         },
         label: Text('Save'),

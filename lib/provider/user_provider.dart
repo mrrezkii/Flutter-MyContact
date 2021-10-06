@@ -9,8 +9,13 @@ class UserProvider extends ChangeNotifier implements UserCallback {
     return _users;
   }
 
-  User getUser(int id) {
+  User getUser(String id) {
     return _users.firstWhere((user) => user.id! == id);
+  }
+
+  bool getPriority(User user) {
+    final int index = _users.indexWhere((element) => element.id == user.id);
+    return _users[index].priority!;
   }
 
   @override
@@ -40,9 +45,25 @@ class UserProvider extends ChangeNotifier implements UserCallback {
   }
 
   @override
-  bool editUser(User user, int index) {
+  bool editUser(User user) {
     try {
-      getAllUser[index] = user;
+      var obj = getUser(user.id!);
+      final int index = _users.indexWhere((element) => element.id == obj.id);
+      _users[index] = user;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print(e);
+    }
+
+    return false;
+  }
+
+  @override
+  bool editPriority(User user) {
+    try {
+      var data = getPriority(user);
+      user.priority = !data;
       notifyListeners();
       return true;
     } catch (e) {
