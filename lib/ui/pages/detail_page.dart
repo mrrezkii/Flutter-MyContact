@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:my_contact/model/args_listviewcard.dart';
 import 'package:my_contact/model/user.dart';
 import 'package:my_contact/provider/behavior_provider.dart';
 import 'package:my_contact/provider/star_provider.dart';
@@ -26,10 +25,10 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     var user;
-    var obj =
-        ModalRoute.of(context)?.settings.arguments as ArgumentsListViewCard?;
-    if (obj != null) {
-      user = Provider.of<UserProvider>(context).getUser(obj.id);
+    var id =
+        ModalRoute.of(context)?.settings.arguments as int?;
+    if (id != null) {
+      user = Provider.of<UserProvider>(context).getUser(id);
     } else {
       user = User();
     }
@@ -199,7 +198,7 @@ class _DetailPageState extends State<DetailPage> {
           child: (behaviorProvider.getCondition == behavior.detailData)
               ? fabEditContact(behaviorProvider)
               : (behaviorProvider.getCondition == behavior.editData)
-                  ? fabSave(behaviorProvider, user, obj!.index)
+                  ? fabSave(behaviorProvider, user, id!)
                   : fabAdd(behaviorProvider),
           //     fabSave()
         ),
@@ -344,7 +343,7 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget fabSave(BehaviorProvider behaviorProvider, User user, int index) {
+  Widget fabSave(BehaviorProvider behaviorProvider, User user, int id) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: FloatingActionButton.extended(
@@ -353,13 +352,12 @@ class _DetailPageState extends State<DetailPage> {
         onPressed: () {
           context.read<UserProvider>().editUser(
               User(
-                id: user.id,
+                id: id,
                 name: nameController.text,
                 number: numberController.text,
                 address: emailController.text,
-                photo: user.photo,
-              ),
-              index);
+                photo: user.photo ?? User.emptyPhoto,
+              ));
           behaviorProvider.changeCondition(behavior.detailData);
         },
         label: Text('Save'),

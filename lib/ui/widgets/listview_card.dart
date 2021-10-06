@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:my_contact/model/args_listviewcard.dart';
 import 'package:my_contact/model/user.dart';
 import 'package:my_contact/provider/behavior_provider.dart';
 import 'package:my_contact/provider/user_provider.dart';
@@ -49,10 +48,7 @@ class ListViewCard extends StatelessWidget {
               Navigator.pushNamed(
                 context,
                 DetailPage.routeDetailPage,
-                arguments: ArgumentsListViewCard(
-                  id: user.id!,
-                  index: index,
-                ),
+                arguments: user.id
               );
               behaviorProvider.changeCondition(behavior.detailData);
             },

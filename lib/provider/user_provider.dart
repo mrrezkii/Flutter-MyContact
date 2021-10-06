@@ -40,9 +40,10 @@ class UserProvider extends ChangeNotifier implements UserCallback {
   }
 
   @override
-  bool editUser(User user, int index) {
+  bool editUser(User user) {
     try {
-      getAllUser[index] = user;
+      var obj = getUser(user.id!);
+      _users[obj.id!] = user;
       notifyListeners();
       return true;
     } catch (e) {
