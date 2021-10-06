@@ -34,16 +34,18 @@ class ListViewCard extends StatelessWidget {
           minVerticalPadding: 0.0,
           contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           leading: Container(
-            margin: EdgeInsets.only(top: 7.0, bottom: 7.0),
-            child: CircleAvatar(
-              radius: 42.0,
-              child: Image.network(
-                user.photo ??
-                    "https://gravatar.com/avatar/503f5a145a84199a8ce0e5e99390642f?s=400&d=robohash&r=x",
-                fit: BoxFit.cover,
+              margin: EdgeInsets.only(left: 9.0, right: 7.0),
+              width: 42.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    image: NetworkImage(
+                      user.photo ??
+                          "https://cdn.pixabay.com/photo/2018/03/23/22/11/question-mark-3255140_960_720.jpg",
+                    ),
+                    fit: BoxFit.cover),
               ),
-            ),
-          ),
+              child: null),
           title: GestureDetector(
             onTap: () {
               Navigator.pushNamed(
