@@ -4,17 +4,17 @@ class User {
   static const emptyPhoto =
       "https://cdn.pixabay.com/photo/2018/03/23/22/11/question-mark-3255140_960_720.jpg";
 
-  int id;
-  String name;
-  String number;
+  int? id;
+  String? name;
+  String? number;
   String? address;
-  bool priority;
+  bool? priority;
   String? photo;
 
   User(
-      {required this.id,
-      required this.name,
-      required this.number,
+      {this.id,
+      this.name,
+      this.number,
       this.address,
       this.priority = false,
       this.photo = emptyPhoto});
