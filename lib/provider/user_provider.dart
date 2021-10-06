@@ -10,7 +10,7 @@ class UserProvider extends ChangeNotifier implements UserCallback {
   }
 
   User getUser(int id) {
-    return _users.firstWhere((user) => user.id == id);
+    return _users.firstWhere((user) => user.id! == id);
   }
 
   @override
@@ -40,21 +40,7 @@ class UserProvider extends ChangeNotifier implements UserCallback {
   }
 
   @override
-  bool editUser(User user) {
-    try {
-      var obj = getUser(user.id);
-      _users[obj.id] = user;
-      notifyListeners();
-      return true;
-    } catch (e) {
-      print(e);
-    }
-
-    return false;
-  }
-
-  @override
-  bool editUser2(User user, int index) {
+  bool editUser(User user, int index) {
     try {
       getAllUser[index] = user;
       notifyListeners();

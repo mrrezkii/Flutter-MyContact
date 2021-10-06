@@ -50,15 +50,14 @@ class ListViewCard extends StatelessWidget {
                 context,
                 DetailPage.routeDetailPage,
                 arguments: ArgumentsListViewCard(
-                  id: user.id,
+                  id: user.id!,
                   index: index,
                 ),
               );
-              // Todo Ku Comment dulu mas, tanya mas ini yang bawah buat apa ya? kalo udah di push bukannya langsung pindah?
-              // context.read<BehaviorProvider>().condition = behavior.editData;
+              behaviorProvider.changeCondition(behavior.detailData);
             },
             child: Text(
-              user.name,
+              user.name!,
               style: blackTextFont,
               overflow: TextOverflow.ellipsis,
             ),
