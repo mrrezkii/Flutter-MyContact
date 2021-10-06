@@ -3,7 +3,7 @@ import 'package:my_contact/callback/user_callback.dart';
 import 'package:my_contact/model/user.dart';
 
 class UserProvider extends ChangeNotifier implements UserCallback {
-  List<User> _users = mockUser;
+  List<User> _users = [];
 
   List<User> get getAllUser {
     return _users;

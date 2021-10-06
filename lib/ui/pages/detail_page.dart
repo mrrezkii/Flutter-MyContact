@@ -55,11 +55,13 @@ class _DetailPageState extends State<DetailPage> {
                       onTap: () {
                         context.read<UserProvider>().editPriority(user);
                       },
-                      child: Consumer<UserProvider>(
-                        builder: (context, userProvider, child) {
-                          return starFilled(userProvider, user);
-                        },
-                      ),
+                      child: (id == null)
+                          ? Container()
+                          : Consumer<UserProvider>(
+                              builder: (context, userProvider, child) {
+                                return starFilled(userProvider, user);
+                              },
+                            ),
                       // starOutline()
                     )
                   ],
@@ -312,6 +314,7 @@ class _DetailPageState extends State<DetailPage> {
             name: nameController.text,
             number: numberController.text,
             address: emailController.text,
+            priority: false,
             photo: Photo.randomPhoto()));
         Navigator.pop(context);
       },

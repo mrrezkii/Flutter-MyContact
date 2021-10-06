@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:my_contact/provider/behavior_provider.dart';
 import 'package:my_contact/provider/theme_provider.dart';
 import 'package:my_contact/provider/user_provider.dart';
+import 'package:my_contact/shared/photo.dart';
 import 'package:my_contact/shared/theme.dart';
 import 'package:my_contact/ui/widgets/listview_card.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,7 @@ class MainPage extends StatelessWidget {
                   child: CircleAvatar(
                     radius: 19.0,
                     child: Image.network(
-                      "https://gravatar.com/avatar/503f5a145a84199a8ce0e5e99390642f?s=400&d=robohash&r=x",
+                      Photo.randomPhoto(),
                       fit: BoxFit.cover,
                     ),
                   ),
