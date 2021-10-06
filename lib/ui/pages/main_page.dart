@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:my_contact/provider/behavior_provider.dart';
 import 'package:my_contact/provider/theme_provider.dart';
 import 'package:my_contact/provider/user_provider.dart';
 import 'package:my_contact/shared/theme.dart';
 import 'package:my_contact/ui/widgets/listview_card.dart';
 import 'package:provider/provider.dart';
 
-class ListViewContact extends StatelessWidget {
-  const ListViewContact({Key? key}) : super(key: key);
+import 'detail_page.dart';
+
+class MainPage extends StatelessWidget {
+  static const routeMainPage = '/main-page';
+  const MainPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -99,19 +103,27 @@ class ListViewContact extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: FloatingActionButton(
-          backgroundColor: pinkColor,
-          child: Icon(Icons.add),
-          onPressed: () {},
+      floatingActionButton: Consumer<BehaviorProvider>(
+        builder: (context, behaviorProvider, _) => Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: FloatingActionButton(
+            backgroundColor: pinkColor,
+            child: Icon(Icons.add),
+            onPressed: () {
+              behaviorProvider.changeCondition(behavior.addData);
+              Navigator.pushNamed(
+                context,
+                DetailPage.routeDetailPage,
+              );
+            },
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
-  Widget noDataFound(){
+  Widget noDataFound() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,

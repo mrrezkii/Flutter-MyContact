@@ -9,11 +9,6 @@ class BehaviorProvider extends ChangeNotifier {
     return _condition;
   }
 
-  // set condition(value) {
-  //   condition = value;
-  //   notifyListeners();
-  // }
-
   void changeCondition(behavior condition) {
     _condition = condition;
     notifyListeners();

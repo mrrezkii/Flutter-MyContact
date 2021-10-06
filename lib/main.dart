@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:my_contact/provider/star_provider.dart';
 import 'package:my_contact/provider/theme_provider.dart';
 import 'package:my_contact/ui/pages/detail_page.dart';
-import 'package:my_contact/ui/pages/listview_contact.dart';
+import 'package:my_contact/ui/pages/main_page.dart';
+import 'package:my_contact/ui/pages/splash_screen_page.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -52,8 +53,9 @@ class MyApp extends StatelessWidget {
           themeMode: context.watch<ThemeProvider>().mode,
           initialRoute: '/',
           routes: {
-            '/': (context) => ListViewContact(),
+            '/': (context) => SplashScreenPage(),
             DetailPage.routeDetailPage: (context) => DetailPage(),
+            MainPage.routeMainPage: (context) => MainPage(),
           },
           // home: ListViewContact(),
         );

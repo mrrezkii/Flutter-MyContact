@@ -25,9 +25,14 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final obj =
-        ModalRoute.of(context)!.settings.arguments as ArgumentsListViewCard;
-    final user = Provider.of<UserProvider>(context).getUser(obj.id);
+    var user;
+    var obj =
+        ModalRoute.of(context)?.settings.arguments as ArgumentsListViewCard?;
+    if (obj != null) {
+      user = Provider.of<UserProvider>(context).getUser(obj.id);
+    } else {
+      user = User();
+    }
 
     return Scaffold(
       body: Consumer<BehaviorProvider>(
@@ -65,7 +70,7 @@ class _DetailPageState extends State<DetailPage> {
                   width: double.infinity,
                   height: 300,
                   child: Image.network(
-                    user.photo!,
+                    (user.photo) ?? User.emptyPhoto,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -194,7 +199,7 @@ class _DetailPageState extends State<DetailPage> {
           child: (behaviorProvider.getCondition == behavior.detailData)
               ? fabEditContact(behaviorProvider)
               : (behaviorProvider.getCondition == behavior.editData)
-                  ? fabSave(behaviorProvider, user, obj.index)
+                  ? fabSave(behaviorProvider, user, obj!.index)
                   : fabAdd(behaviorProvider),
           //     fabSave()
         ),
@@ -278,7 +283,7 @@ class _DetailPageState extends State<DetailPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          address!,
+          address ?? '',
           style: blackTextFont,
         ),
         Text(
@@ -337,7 +342,7 @@ class _DetailPageState extends State<DetailPage> {
         backgroundColor: blueColor,
         icon: Icon(Icons.save),
         onPressed: () {
-          context.read<UserProvider>().editUser2(
+          context.read<UserProvider>().editUser(
               User(
                 id: user.id,
                 name: nameController.text,
