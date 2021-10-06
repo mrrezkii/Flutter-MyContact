@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:my_contact/provider/theme_provider.dart';
 import 'package:my_contact/provider/user_provider.dart';
 import 'package:my_contact/shared/theme.dart';
@@ -97,6 +99,34 @@ class ListViewContact extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: FloatingActionButton(
+          backgroundColor: pinkColor,
+          child: Icon(Icons.add),
+          onPressed: () {},
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+    );
+  }
+
+  Widget noDataFound(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Lottie.asset(
+          'assets/json/no_records_found.json',
+          width: 200,
+          height: 200,
+          fit: BoxFit.cover,
+        ),
+        Text(
+          'No Data Found',
+          style: greyTextFont,
+        ),
+      ],
     );
   }
 }
