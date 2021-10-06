@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_contact/model/user.dart';
 import 'package:my_contact/provider/behavior_provider.dart';
-import 'package:my_contact/provider/star_provider.dart';
 import 'package:my_contact/provider/user_provider.dart';
 import 'package:my_contact/shared/photo.dart';
 import 'package:my_contact/shared/theme.dart';
@@ -26,8 +25,7 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     var user;
-    var id =
-        ModalRoute.of(context)?.settings.arguments as String?;
+    var id = ModalRoute.of(context)?.settings.arguments as String?;
     if (id != null) {
       user = Provider.of<UserProvider>(context).getUser(id);
     } else {
@@ -55,11 +53,11 @@ class _DetailPageState extends State<DetailPage> {
                     ),
                     InkWell(
                       onTap: () {
-                        context.read<StarProvider>().changeFavourite();
+                        context.read<UserProvider>().editPriority(user);
                       },
-                      child: Consumer<StarProvider>(
-                        builder: (context, starProv, child) {
-                          return starFilled(starProv);
+                      child: Consumer<UserProvider>(
+                        builder: (context, userProvider, child) {
+                          return starFilled(userProvider, user);
                         },
                       ),
                       // starOutline()
@@ -208,17 +206,10 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget starOutline() {
+  Widget starFilled(UserProvider userProvider, User user) {
     return Padding(
       padding: const EdgeInsets.all(24),
-      child: SvgPicture.asset('assets/vector/ic_star.svg'),
-    );
-  }
-
-  Widget starFilled(StarProvider starProvider) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: starProvider.isFavourite
+      child: userProvider.getPriority(user)
           ? SvgPicture.asset('assets/vector/ic_star_filled.svg')
           : SvgPicture.asset('assets/vector/ic_star.svg'),
     );
@@ -316,14 +307,12 @@ class _DetailPageState extends State<DetailPage> {
       backgroundColor: pinkColor,
       child: Icon(Icons.add),
       onPressed: () {
-        context.read<UserProvider>().addUser(
-            User(
-              id: DateTime.now().toString(),
-              name: nameController.text,
-              number: numberController.text,
-              address: emailController.text,
-              photo: Photo.randomPhoto()
-            ));
+        context.read<UserProvider>().addUser(User(
+            id: DateTime.now().toString(),
+            name: nameController.text,
+            number: numberController.text,
+            address: emailController.text,
+            photo: Photo.randomPhoto()));
         Navigator.pop(context);
       },
     );
@@ -350,8 +339,7 @@ class _DetailPageState extends State<DetailPage> {
         backgroundColor: blueColor,
         icon: Icon(Icons.save),
         onPressed: () {
-          context.read<UserProvider>().editUser(
-              User(
+          context.read<UserProvider>().editUser(User(
                 id: id,
                 name: nameController.text,
                 number: numberController.text,

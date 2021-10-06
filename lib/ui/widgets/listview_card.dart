@@ -45,11 +45,8 @@ class ListViewCard extends StatelessWidget {
           ),
           title: GestureDetector(
             onTap: () {
-              Navigator.pushNamed(
-                context,
-                DetailPage.routeDetailPage,
-                arguments: user.id
-              );
+              Navigator.pushNamed(context, DetailPage.routeDetailPage,
+                  arguments: user.id);
               behaviorProvider.changeCondition(behavior.detailData);
             },
             child: Text(

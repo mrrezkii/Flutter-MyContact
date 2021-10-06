@@ -1,7 +1,7 @@
 import 'dart:math';
 
-class Photo{
-  static const photoUrl =  [
+class Photo {
+  static const photoUrl = [
     'https://gravatar.com/avatar/bb30b0cc4662b31baf4df56f843c107a?s=400&d=robohash&r=x',
     'https://gravatar.com/avatar/5671d07c2df67cef78601ccae2a6d214?s=400&d=robohash&r=x',
     'https://gravatar.com/avatar/2627c79b8803215528bbbe65383e7a16?s=400&d=robohash&r=x',
@@ -12,7 +12,7 @@ class Photo{
     'https://gravatar.com/avatar/072b276da2c81ed0d49a8ae5d32c7ab1?s=400&d=robohash&r=x'
   ];
 
-  static String randomPhoto(){
+  static String randomPhoto() {
     final _random = Random();
     return photoUrl[_random.nextInt(photoUrl.length)];
   }
