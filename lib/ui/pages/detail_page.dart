@@ -6,6 +6,7 @@ import 'package:my_contact/model/user.dart';
 import 'package:my_contact/provider/behavior_provider.dart';
 import 'package:my_contact/provider/star_provider.dart';
 import 'package:my_contact/provider/user_provider.dart';
+import 'package:my_contact/shared/photo.dart';
 import 'package:my_contact/shared/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -322,7 +323,7 @@ class _DetailPageState extends State<DetailPage> {
               name: nameController.text,
               number: numberController.text,
               address: emailController.text,
-              photo: User.emptyPhoto
+              photo: Photo.randomPhoto()
             ));
         Navigator.pop(context);
       },
