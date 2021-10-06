@@ -27,7 +27,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     var user;
     var id =
-        ModalRoute.of(context)?.settings.arguments as int?;
+        ModalRoute.of(context)?.settings.arguments as String?;
     if (id != null) {
       user = Provider.of<UserProvider>(context).getUser(id);
     } else {
@@ -316,10 +316,9 @@ class _DetailPageState extends State<DetailPage> {
       backgroundColor: pinkColor,
       child: Icon(Icons.add),
       onPressed: () {
-        var length = context.read<UserProvider>().getAllUser.length;
         context.read<UserProvider>().addUser(
             User(
-              id: length + 1,
+              id: DateTime.now().toString(),
               name: nameController.text,
               number: numberController.text,
               address: emailController.text,
@@ -344,7 +343,7 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget fabSave(BehaviorProvider behaviorProvider, User user, int id) {
+  Widget fabSave(BehaviorProvider behaviorProvider, User user, String id) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: FloatingActionButton.extended(

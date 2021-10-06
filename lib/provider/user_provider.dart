@@ -9,7 +9,7 @@ class UserProvider extends ChangeNotifier implements UserCallback {
     return _users;
   }
 
-  User getUser(int id) {
+  User getUser(String id) {
     return _users.firstWhere((user) => user.id! == id);
   }
 
@@ -43,7 +43,8 @@ class UserProvider extends ChangeNotifier implements UserCallback {
   bool editUser(User user) {
     try {
       var obj = getUser(user.id!);
-      _users[obj.id!] = user;
+      final int index = _users.indexWhere((element) => element.id == obj.id);
+      _users[index] = user;
       notifyListeners();
       return true;
     } catch (e) {
